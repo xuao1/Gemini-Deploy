@@ -5,8 +5,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     vim  \
-    curl  \
-    netbase \
     gcc-8 g++-8 \
     wget && \
     apt-get clean && \
