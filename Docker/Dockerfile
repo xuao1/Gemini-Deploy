@@ -4,6 +4,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+    ca-certificates \
     vim  \
     gcc g++ \
     gcc-8 g++-8 \
