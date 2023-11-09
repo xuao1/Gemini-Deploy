@@ -7,6 +7,7 @@ RUN apt-get update && \
     vim  \
     curl  \
     netbase \
+    gcc-8 g++-8 \
     wget && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
