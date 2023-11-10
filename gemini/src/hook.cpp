@@ -790,9 +790,9 @@ void initialize() {
   pthread_mutex_lock(&request_time_mutex);
   DEBUG("Mutex lock done: in hook.cpp");
   for (int i = 0; i < current_gpu_num; i++) {
-      DEBUG("cudaEventCreate to: %d", i)
+      DEBUG("cudaEventCreate to: %d", i);
       cudaEventCreate(&cuevent_start[i]);
-      DEBUG("cudaEventCreate done: in hook.cpp")
+      DEBUG("cudaEventCreate done: in hook.cpp");
   }
   DEBUG("cudaEventCreate done: in hook.cpp");
   // initialize overuse_trk_intr_cond with CLOCK_MONOTONIC
