@@ -747,6 +747,7 @@ CUresult cuMemcpyHtoD_posthook(CUarray dstArray, size_t dstOffset, const void *s
 }
 
 void initialize() {
+  DEBUG("Begin to initialize: in hook.cpp");
   // Init all variable in array
   for (int i = 0; i < max_gpu_num; i++) {
     quota_time[i] = 0.0;
@@ -779,22 +780,29 @@ void initialize() {
   hook_inf.preHooks[CU_HOOK_ARRAY3D_CREATE] = (void *)cuArray3DCreate_prehook;
   hook_inf.preHooks[CU_HOOK_MIPMAPPED_ARRAY_CREATE] = (void *)cuMipmappedArrayCreate_prehook;
 
+  DEBUG("Initialize done: in hook.cpp");
   configure_connection();
+  DEBUG("Configure connection done: in hook.cpp");
+  DEBUG("current_gpu_num: %d", current_gpu_num);
+  DEBUG("pod_manager_ip: %s", pod_manager_ip);
+  DEBUG("pod_manager_port: %d", pod_manager_port);
+  DEBUG("Begin mutex lock: in hook.cpp");
   pthread_mutex_lock(&request_time_mutex);
+  DEBUG("Mutex lock done: in hook.cpp");
   for (int i = 0; i < current_gpu_num; i++) {
       cudaEventCreate(&cuevent_start[i]);
   }
-
+  DEBUG("cudaEventCreate done: in hook.cpp");
   // initialize overuse_trk_intr_cond with CLOCK_MONOTONIC
   pthread_condattr_t attr_monotonic_clock;
   pthread_condattr_init(&attr_monotonic_clock);
   pthread_condattr_setclock(&attr_monotonic_clock, CLOCK_MONOTONIC);
   pthread_cond_init(&overuse_trk_intr_cond, &attr_monotonic_clock);
-
+  DEBUG("pthread_cond_init done: in hook.cpp");
   // a thread running overuse tracking
   pthread_t overuse_trk_tid;
   pthread_create(&overuse_trk_tid, NULL, wait_cuda_kernels, NULL);
-
+  DEBUG("pthread_create done: in hook.cpp");
   // first token request
   overuse_trk_cmpl = true;  // bypass first overuse tracking to prevent deadlock
 
