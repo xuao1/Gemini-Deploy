@@ -230,7 +230,7 @@ int get_current_device_id() {
     ERROR("failed to get current device: %d", rc);
   }
 
-  // DEBUG("Operation on device %d", device);
+  DEBUG("Operation on device %d", device);
   return device;
 }
 
@@ -277,14 +277,14 @@ int establish_connection(int device) {
   }
 
 
-  // DEBUG("Config connection to : %d", device);
+  DEBUG("Config connection to : %d", device);
   struct sockaddr_in info;
   bzero(&info, sizeof(info));
   info.sin_family = PF_INET;
   info.sin_addr.s_addr = inet_addr(pod_manager_ip);
   info.sin_port = htons(pod_manager_port_list[device]);
 
-  //DEBUG("Trying to establish connection on port: %d", pod_manager_port_list[device]);
+  DEBUG("Trying to establish connection on port: %d", pod_manager_port_list[device]);
 
   int rc = multiple_attempt(
       [&]() -> int { return connect(sockfd_e, (struct sockaddr *)&info, sizeof(info)); },
@@ -310,7 +310,7 @@ int communicate(char *sbuf, char *rbuf, int socket_timeout, int device) {
   // static int sockfd[max_gpu_num];
 
   sockfd[device] = establish_connection(device);
-  //DEBUG("establish_connection to device: %d", device);
+  DEBUG("establish_connection to device: %d", device);
   int rc;
   struct timeval tv;
   // CUdevice device;
@@ -333,7 +333,7 @@ int communicate(char *sbuf, char *rbuf, int socket_timeout, int device) {
       NET_OP_MAX_ATTEMPT);
 
   pthread_mutex_unlock(&comm_mutex);
-  //DEBUG("Communicate to device : %d", device);
+  DEBUG("Communicate to device : %d", device);
   return rc;
 }
 
