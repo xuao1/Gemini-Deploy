@@ -98,11 +98,12 @@ static struct hookInfo hook_inf;
  ** interposed functions
  */
 void *dlsym(void *handle, const char *symbol) {
+  DEBUG("In dlsym, symbol is %s", symbol);
   // Early out if not a CUDA driver symbol
   if (strncmp(symbol, "cu", 2) != 0) {
     return (real_dlsym(handle, symbol));
   }
-
+  DEBUG("In dlsym, symbol is %s", symbol);
   if (strcmp(symbol, CUDA_SYMBOL_STRING(cuMemAlloc)) == 0) {
     return (void *)(&cuMemAlloc);
   } else if (strcmp(symbol, CUDA_SYMBOL_STRING(cuMemAllocManaged)) == 0) {
@@ -162,6 +163,7 @@ void *dlsym(void *handle, const char *symbol) {
   }
   // omit cuDeviceTotalMem here so there won't be a deadlock in cudaEventCreate when we are in
   // initialize(). Functions called by cliet are still being intercepted.
+  DEBUG("In dlsym, symbol is %s", symbol);
   return (real_dlsym(handle, symbol));
 }
 
