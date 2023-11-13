@@ -13,6 +13,8 @@ int main() {
         return -1;
     }
 
+    initialize_driver();
+
     // 获取当前的 CUDA 设备
     res = cuCtxGetDevice(&device);
     if (res != CUDA_SUCCESS) {
