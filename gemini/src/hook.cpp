@@ -586,6 +586,7 @@ CUresult cuLaunchCooperativeKernel_prehook(CUfunction f, unsigned int gridDimX,
                                            unsigned int blockDimX, unsigned int blockDimY,
                                            unsigned int blockDimZ, unsigned int sharedMemBytes,
                                            CUstream hStream, void **kernelParams) {
+  DEBUG("+++++++++++++++++++++++++++++++++++hook cooperative kernel");
   return cuLaunchKernel_prehook(f, gridDimX, gridDimY, gridDimZ, blockDimX, blockDimY, blockDimZ,
                                 sharedMemBytes, hStream, kernelParams, NULL);
 }
@@ -717,6 +718,7 @@ CUresult cuMipmappedArrayCreate_posthook(CUmipmappedArray *pHandle,
                                          const CUDA_ARRAY3D_DESCRIPTOR *pMipmappedArrayDesc,
                                          unsigned int numMipmapLevels) {
   // TODO: check mipmap array size
+  DEBUG("+++++++++++++++++++++++++++++++++++++++++Mipmapped array created");
   return CUDA_SUCCESS;
 }
 
