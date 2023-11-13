@@ -818,6 +818,29 @@ void initialize() {
       DEBUG("cudaEventCreate done: in hook.cpp");
   }
   DEBUG("cudaEventCreate done: in hook.cpp");
+
+  // 初始化 CUDA 以及创建上下文
+  CUresult rc = cuInit(0);
+  if (rc != CUDA_SUCCESS) {
+    ERROR("failed to initialize CUDA: %d", rc);
+    exit(rc);
+  }
+  DEBUG("cuInit done: in hook.cpp");
+  CUdevice device;
+  rc = cuDeviceGet(&device, 0);
+  if (rc != CUDA_SUCCESS) {
+    ERROR("failed to get device: %d", rc);
+    exit(rc);
+  }
+  DEBUG("cuDeviceGet done: in hook.cpp");
+  CUcontext context;
+  rc = cuCtxCreate(&context, 0, device);
+  if (rc != CUDA_SUCCESS) {
+    ERROR("failed to create context: %d", rc);
+    exit(rc);
+  }
+  DEBUG("cuCtxCreate done: in hook.cpp");
+
   // initialize overuse_trk_intr_cond with CLOCK_MONOTONIC
   pthread_condattr_t attr_monotonic_clock;
   pthread_condattr_init(&attr_monotonic_clock);
