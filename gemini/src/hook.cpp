@@ -793,7 +793,7 @@ void initialize() {
   DEBUG("Mutex lock done: in hook.cpp");
   for (int i = 0; i < current_gpu_num; i++) {
       DEBUG("cudaEventCreate to: %d", i);
-      cudaEventCreate(&cuevent_start[i]);
+      // cudaEventCreate(&cuevent_start[i]);
       DEBUG("cudaEventCreate done: in hook.cpp");
   }
   DEBUG("cudaEventCreate done: in hook.cpp");
