@@ -833,13 +833,13 @@ void initialize() {
     exit(rc);
   }
   DEBUG("cuDeviceGet done: in hook.cpp");
-  CUcontext context;
-  rc = cuCtxCreate(&context, 0, device);
-  if (rc != CUDA_SUCCESS) {
-    ERROR("failed to create context: %d", rc);
-    exit(rc);
-  }
-  DEBUG("cuCtxCreate done: in hook.cpp");
+  // CUcontext context;
+  // rc = cuCtxCreate(&context, 0, device);
+  // if (rc != CUDA_SUCCESS) {
+  //   ERROR("failed to create context: %d", rc);
+  //   exit(rc);
+  // }
+  // DEBUG("cuCtxCreate done: in hook.cpp");
 
   // initialize overuse_trk_intr_cond with CLOCK_MONOTONIC
   pthread_condattr_t attr_monotonic_clock;
