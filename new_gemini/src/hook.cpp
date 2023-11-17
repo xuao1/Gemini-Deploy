@@ -66,12 +66,12 @@ struct hookInfo {
 static struct hookInfo hook_inf;
 
 void *dlsym(void *handle, const char *symbol) {
-  DEBUG("First place: In dlsym, symbol is %s", symbol);
+  // DEBUG("First place: In dlsym, symbol is %s", symbol);
   // Early out if not a CUDA driver symbol
   if (strncmp(symbol, "cu", 2) != 0) {
     return (real_dlsym(handle, symbol));
   }
-  DEBUG("Second place: In dlsym, symbol is %s", symbol);
+  // DEBUG("Second place: In dlsym, symbol is %s", symbol);
   if (strcmp(symbol, CUDA_SYMBOL_STRING(cuLaunchKernel)) == 0) {
     return (void *)(&cuLaunchKernel);
   } else if (strcmp(symbol, CUDA_SYMBOL_STRING(cuLaunchCooperativeKernel)) == 0) {
@@ -95,7 +95,7 @@ void *dlsym(void *handle, const char *symbol) {
 //   } else if (strcmp(symbol, CUDA_SYMBOL_STRING(cuGetProcAddress)) == 0) {
 //     return (void *)(&cuGetProcAddress);
   }
-  DEBUG("Third place: In dlsym, symbol is %s", symbol);
+  // DEBUG("Third place: In dlsym, symbol is %s", symbol);
   return (real_dlsym(handle, symbol));
 }
 
