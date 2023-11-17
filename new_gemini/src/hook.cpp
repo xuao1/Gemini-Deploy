@@ -140,7 +140,7 @@ CUresult cuCtxSynchronize_posthook(void) {
 //   DEBUG("cuGetProcAddress_prehook =============================================");
 //   return CUDA_SUCCESS;
 // }
-
+__attribute__((constructor))
 void initialize() {
   DEBUG("Begin to initialize: in hook.cpp");
   // Init all variable in array
