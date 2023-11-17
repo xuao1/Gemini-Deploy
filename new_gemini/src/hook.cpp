@@ -92,8 +92,8 @@ void *dlsym(void *handle, const char *symbol) {
     return (void *)(&cuCtxPopCurrent);
   } else if (strcmp(symbol, CUDA_SYMBOL_STRING(cuCtxPushCurrent)) == 0) {
     return (void *)(&cuCtxPushCurrent);
-  } else if (strcmp(symbol, CUDA_SYMBOL_STRING(cuGetProcAddress)) == 0) {
-    return (void *)(&cuGetProcAddress);
+//   } else if (strcmp(symbol, CUDA_SYMBOL_STRING(cuGetProcAddress)) == 0) {
+//     return (void *)(&cuGetProcAddress);
   }
   DEBUG("Third place: In dlsym, symbol is %s", symbol);
   return (real_dlsym(handle, symbol));
