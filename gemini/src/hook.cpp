@@ -491,6 +491,34 @@ void *wait_cuda_kernels(void *args) {
   pthread_exit(NULL);
 }
 
+
+CUresult cuGetProcAddress(const char *symbol, void **pfn, int cudaVersion,
+                          cuuint64_t flags) {
+  CUresult ret;
+  int i;
+
+  load_necessary_data();
+  if (!is_custom_config_path()) {
+    pthread_once(&g_register_set, register_to_remote);
+  }
+  pthread_once(&g_init_set, initialization);
+
+  ret = CUDA_ENTRY_CALL(cuda_library_entry, cuGetProcAddress, symbol, pfn,
+                        cudaVersion, flags);
+  if (ret == CUDA_SUCCESS) {
+    for (i = 0; i < cuda_hook_nums; i++) {
+      if (!strcmp(symbol, cuda_hooks_entry[i].name)) {
+        LOGGER(5, "Match hook %s", symbol);
+        *pfn = cuda_hooks_entry[i].fn_ptr;
+        break;
+      }
+    }
+  }
+
+  return ret;
+}
+
+
 /**
  * pre-hooks and post-hooks
  */
