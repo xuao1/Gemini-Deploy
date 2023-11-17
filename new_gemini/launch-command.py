@@ -17,7 +17,7 @@ def main():
     os.setpgrp()
 
     client_env = os.environ.copy()
-    client_env['LD_PRELOAD'] = "{}/Gemini_Deploy/new_gemini/lib/libgemhook.so.1".format(Path.home())
+    client_env['LD_PRELOAD'] = "{}/Gemini-Deploy/new_gemini/lib/libgemhook.so.1".format(Path.home())
 
     proc = sp.Popen(
         args.command, env=client_env, start_new_session=True, universal_newlines=True, bufsize=1, shell=True, stderr=sp.STDOUT
