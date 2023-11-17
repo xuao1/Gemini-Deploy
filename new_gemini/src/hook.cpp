@@ -102,7 +102,7 @@ void *dlsym(void *handle, const char *symbol) {
 int get_current_device_id() {
   CUdevice device;
   CUresult rc = cuCtxGetDevice(&device);
-  if (rc != CUDA_SUCCESS || device >= max_gpu_num) {
+  if (rc != CUDA_SUCCESS) {
     ERROR("failed to get current device: %d", rc);
   }
 
@@ -159,8 +159,7 @@ void initialize() {
 CUstream hStream;  // redundent variable used for macro expansion
 
 #define CU_HOOK_GENERATE_INTERCEPT(hooksymbol, funcname, params, ...)                     \
-  CUresult CUDAAPI funcname params {                                                      \
-    pthread_once(&init_done, initialize);                                                 \
+  CUresult CUDAAPI funcname params {                                                      \                                               \
                                                                                           \
     static void *real_func = (void *)real_dlsym(RTLD_NEXT, CUDA_SYMBOL_STRING(funcname)); \
     CUresult result = CUDA_SUCCESS;                                                       \
