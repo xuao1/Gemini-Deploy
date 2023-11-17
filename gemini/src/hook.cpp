@@ -569,10 +569,10 @@ CUresult cuCtxSynchronize_posthook(void) {
   return CUDA_SUCCESS;
 }
 
-// CUresult cuGetProcAddress_prehook(CUfunction *hfunc, const char *name) {
-//   DEBUG("cuGetProcAddress_prehook =============================================");
-//   return CUDA_SUCCESS;
-// }
+CUresult cuGetProcAddress_prehook(CUfunction *hfunc, const char *name) {
+  DEBUG("cuGetProcAddress_prehook =============================================");
+  return CUDA_SUCCESS;
+}
 
 void initialize() {
   DEBUG("Begin to initialize: in hook.cpp");
@@ -587,6 +587,7 @@ void initialize() {
   // place pre-hooks
   hook_inf.preHooks[CU_HOOK_LAUNCH_KERNEL] = (void *)cuLaunchKernel_prehook;
   hook_inf.preHooks[CU_HOOK_LAUNCH_COOPERATIVE_KERNEL] = (void *)cuLaunchCooperativeKernel_prehook;
+  hook_inf.preHooks[CU_HOOK_GET_PROC_ADDRESS] = (void *)cuGetProcAddress_prehook;
 
   DEBUG("Initialize done: in hook.cpp");
   configure_connection();
