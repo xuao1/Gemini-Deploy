@@ -569,6 +569,11 @@ CUresult cuCtxSynchronize_posthook(void) {
   return CUDA_SUCCESS;
 }
 
+// CUresult cuGetProcAddress_prehook(CUfunction *hfunc, const char *name) {
+//   DEBUG("cuGetProcAddress_prehook =============================================");
+//   return CUDA_SUCCESS;
+// }
+
 void initialize() {
   DEBUG("Begin to initialize: in hook.cpp");
   // Init all variable in array
@@ -695,3 +700,5 @@ CU_HOOK_GENERATE_INTERCEPT(CU_HOOK_LAUNCH_COOPERATIVE_KERNEL, cuLaunchCooperativ
                             void **kernelParams),
                            f, gridDimX, gridDimY, gridDimZ, blockDimX, blockDimY, blockDimZ,
                            sharedMemBytes, hStream, kernelParams)
+CU_HOOK_GENERATE_INTERCEPT(CU_HOOK_GET_PROC_ADDRESS, cuGetProcAddress,
+                           (CUfunction * hfunc, const char *name), hfunc, name)
