@@ -160,6 +160,8 @@ void *dlsym(void *handle, const char *symbol) {
     return (void *)(&cuCtxPopCurrent);
   } else if (strcmp(symbol, CUDA_SYMBOL_STRING(cuCtxPushCurrent)) == 0) {
     return (void *)(&cuCtxPushCurrent);
+  } else if (strcmp(symbol, CUDA_SYMBOL_STRING(cuGetProcAddress)) == 0) {
+    return (void *)(&cuGetProcAddress);
   }
   // omit cuDeviceTotalMem here so there won't be a deadlock in cudaEventCreate when we are in
   // initialize(). Functions called by cliet are still being intercepted.
