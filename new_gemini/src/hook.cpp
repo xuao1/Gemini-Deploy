@@ -157,7 +157,7 @@ CUstream hStream;  // redundent variable used for macro expansion
 
 #define CU_HOOK_GENERATE_INTERCEPT(hooksymbol, funcname, params, ...)                     \
   CUresult CUDAAPI funcname params {                                                      \
-    printf("XXA: In %s\n", CUDA_SYMBOL_STRING(funcname));                                                                                      \
+    DEBUG("XXA: in hook function");                                                                                   \
     static void *real_func = (void *)real_dlsym(RTLD_NEXT, CUDA_SYMBOL_STRING(funcname)); \
     CUresult result = CUDA_SUCCESS;                                                       \
                                                                                           \
