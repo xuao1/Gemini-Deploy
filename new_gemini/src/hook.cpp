@@ -92,8 +92,8 @@ void *dlsym(void *handle, const char *symbol) {
     return (void *)(&cuCtxPopCurrent);
   } else if (strcmp(symbol, CUDA_SYMBOL_STRING(cuCtxPushCurrent)) == 0) {
     return (void *)(&cuCtxPushCurrent);
-  } else if (strcmp(symbol, CUDA_SYMBOL_STRING(cuGetProcAddress)) == 0) {
-    return (void *)(&cuGetProcAddress);
+//   } else if (strcmp(symbol, CUDA_SYMBOL_STRING(cuGetProcAddress)) == 0) {
+//     return (void *)(&cuGetProcAddress);
   }
   DEBUG("Third place: In dlsym, symbol is %s", symbol);
   return (real_dlsym(handle, symbol));
@@ -136,10 +136,10 @@ CUresult cuCtxSynchronize_posthook(void) {
   return CUDA_SUCCESS;
 }
 
-CUresult cuGetProcAddress_prehook(CUfunction *hfunc, const char *name) {
-  DEBUG("cuGetProcAddress_prehook =============================================");
-  return CUDA_SUCCESS;
-}
+// CUresult cuGetProcAddress_prehook(CUfunction *hfunc, const char *name) {
+//   DEBUG("cuGetProcAddress_prehook =============================================");
+//   return CUDA_SUCCESS;
+// }
 __attribute__((constructor))
 void initialize() {
   DEBUG("Begin to initialize: in hook.cpp");
@@ -148,7 +148,7 @@ void initialize() {
 
   hook_inf.preHooks[CU_HOOK_LAUNCH_KERNEL] = (void *)cuLaunchKernel_prehook;
   hook_inf.preHooks[CU_HOOK_LAUNCH_COOPERATIVE_KERNEL] = (void *)cuLaunchCooperativeKernel_prehook;
-  hook_inf.preHooks[CU_HOOK_GET_PROC_ADDRESS] = (void *)cuGetProcAddress_prehook;
+  // hook_inf.preHooks[CU_HOOK_GET_PROC_ADDRESS] = (void *)cuGetProcAddress_prehook;
 
   DEBUG("Initialize done: in hook.cpp");
 }
@@ -204,5 +204,5 @@ CU_HOOK_GENERATE_INTERCEPT(CU_HOOK_LAUNCH_COOPERATIVE_KERNEL, cuLaunchCooperativ
                             void **kernelParams),
                            f, gridDimX, gridDimY, gridDimZ, blockDimX, blockDimY, blockDimZ,
                            sharedMemBytes, hStream, kernelParams)
-CU_HOOK_GENERATE_INTERCEPT(CU_HOOK_GET_PROC_ADDRESS, cuGetProcAddress,
-                           (CUfunction * hfunc, const char *name), hfunc, name)
+// CU_HOOK_GENERATE_INTERCEPT(CU_HOOK_GET_PROC_ADDRESS, cuGetProcAddress,
+//                            (CUfunction * hfunc, const char *name), hfunc, name)
