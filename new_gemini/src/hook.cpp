@@ -99,6 +99,11 @@ void *dlsym(void *handle, const char *symbol) {
   return (real_dlsym(handle, symbol));
 }
 
+typedef struct {
+  void *fn_ptr;
+  char *name;
+} entry_t;
+
 entry_t cuda_library_entry[] = {
     {.name = "cuInit"},
     {.name = "cuDeviceGet"},
