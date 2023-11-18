@@ -92,8 +92,8 @@ void *dlsym(void *handle, const char *symbol) {
     return (void *)(&cuCtxPopCurrent);
   } else if (strcmp(symbol, CUDA_SYMBOL_STRING(cuCtxPushCurrent)) == 0) {
     return (void *)(&cuCtxPushCurrent);
-//   } else if (strcmp(symbol, CUDA_SYMBOL_STRING(cuGetProcAddress)) == 0) {
-//     return (void *)(&cuGetProcAddress);
+  } else if (strcmp(symbol, CUDA_SYMBOL_STRING(cuGetProcAddress)) == 0) {
+    return (void *)(&cuGetProcAddress);
   }
   DEBUG("Third place: In dlsym, symbol is %s", symbol);
   return (real_dlsym(handle, symbol));
@@ -140,6 +140,7 @@ CUresult cuCtxSynchronize_posthook(void) {
 //   DEBUG("cuGetProcAddress_prehook =============================================");
 //   return CUDA_SUCCESS;
 // }
+
 __attribute__((constructor))
 void initialize() {
   DEBUG("Begin to initialize: in hook.cpp");
@@ -154,6 +155,11 @@ void initialize() {
 }
 
 CUstream hStream;  // redundent variable used for macro expansion
+
+CUresult cuGetProcAddress(const char *symbol, void **pfn, int cudaVersion, cuuint64_t flags) {
+    DEBUG("cuGetProcAddress =============================================");
+    return CUDA_SUCCESS;
+} 
 
 #define CU_HOOK_GENERATE_INTERCEPT(hooksymbol, funcname, params, ...)                     \
   CUresult CUDAAPI funcname params {                                                      \
