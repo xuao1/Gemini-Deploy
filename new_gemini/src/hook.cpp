@@ -1007,7 +1007,8 @@ CUresult cuGetProcAddress(const char *symbol, void **pfn, int cudaVersion,
 CUstream hStream;  // redundent variable used for macro expansion
 
 #define CU_HOOK_GENERATE_INTERCEPT(hooksymbol, funcname, params, ...)                     \
-  CUresult CUDAAPI funcname params {                                                      \                                                                                \
+  CUresult CUDAAPI funcname params {                                                      \
+                                                                                          \
     static void *real_func = (void *)real_dlsym(RTLD_NEXT, CUDA_SYMBOL_STRING(funcname)); \
     CUresult result = CUDA_SUCCESS;                                                       \
                                                                                           \
